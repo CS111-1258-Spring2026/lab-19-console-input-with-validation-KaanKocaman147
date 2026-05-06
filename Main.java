@@ -2,67 +2,57 @@ import java.util.Scanner;
 
 public class Main
 {
-    public static NetflixOriginal instantiateFromInput(Scanner input)
-    {
-        NetflixOriginal show = new NetflixOriginal();
+	public static NetflixOriginal instantiateFromInput(Scanner input)
+	{
+		NetflixOriginal show = new NetflixOriginal();
 
-        System.out.print("Please enter the name of the show: ");
-        String name = input.nextLine();
-        show.setName(name);
+		System.out.print("Please enter the name of the show: ");
+		String name = input.nextLine();
+		show.setName(name);
 
-        boolean validRating = false;
-        while(!validRating)
-        {
-            System.out.print("Please enter the star rating: ");
+		boolean validRating = false;
+		while(!validRating)
+		{
+			System.out.print("Please enter the star rating: ");
 
-            if(input.hasNextDouble())
-            {
-                double rating = input.nextDouble();
-                input.nextLine();
+			if(input.hasNextDouble())
+			{
+				double rating = input.nextDouble();
+				input.nextLine();
 
-                validRating = show.setStarRating(rating);
+				validRating = show.setStarRating(rating);
+			}
+			else
+			{
+				input.nextLine();
+			}
+		}
 
-                if(!validRating)
-                {
-                    System.out.println("Invalid rating. Must be between 0 and 5.");
-                }
-            }
-            else
-            {
-                System.out.println("Invalid input. Enter a number.");
-                input.nextLine();
-            }
-        }
+		boolean validGenre = false;
+		while(!validGenre)
+		{
+			System.out.print("Please enter the genre: ");
+			String genre = input.nextLine();
 
-        boolean validGenre = false;
-        while(!validGenre)
-        {
-            System.out.print("Please enter the genre: ");
-            String genre = input.nextLine().trim();
+			validGenre = show.setGenre(genre);
+		}
 
-            validGenre = show.setGenre(genre);
+		System.out.println(show);
 
-            if(!validGenre)
-            {
-                System.out.println("Invalid genre. Try again.");
-            }
-        }
+		return show;
+	}
 
-        System.out.println(show);
-        return show;
-    }
+	public static void main(String[] args)
+	{
+		Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args)
-    {
-        Scanner input = new Scanner(System.in);
+		NetflixOriginal[] shows = new NetflixOriginal[2];
 
-        NetflixOriginal[] shows = new NetflixOriginal[2];
+		for(int i = 0; i < shows.length; i++)
+		{
+			shows[i] = instantiateFromInput(input);
+		}
 
-        for(int i = 0; i < shows.length; i++)
-        {
-            shows[i] = instantiateFromInput(input);
-        }
-
-        input.close();
-    }
+		input.close();
+	}
 }
