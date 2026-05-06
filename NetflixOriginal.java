@@ -1,52 +1,99 @@
-public static NetflixOriginal instantiateFromInput(Scanner input)
+/* Represents a Netflix Original show */
+
+public class NetflixOriginal
 {
-    NetflixOriginal show = new NetflixOriginal();
-
-    System.out.print("Please enter the name of the show: ");
-    String name = input.nextLine();
-    show.setName(name);
-
-    // STAR RATING
-    boolean validRating = false;
-    while(!validRating)
+    public static final String[] VALID_GENRES =
     {
-        System.out.print("Please enter the star rating: ");
+        "drama","comedy","horror","action",
+        "science fiction","anime","reality","unknown"
+    };
 
-        if(input.hasNextDouble())
+    private String name;
+    private double starRating;
+    private String genre;
+
+    public NetflixOriginal()
+    {
+        name = "Unknown";
+        starRating = 0.0;
+        genre = "unknown";
+    }
+
+    public NetflixOriginal(String name, double starRating, String genre)
+    {
+        if(!this.setStarRating(starRating) || !this.setGenre(genre))
         {
-            double rating = input.nextDouble();
-            input.nextLine();
-
-            validRating = show.setStarRating(rating);
-
-            if(!validRating)
-            {
-                System.out.println("Invalid rating. Must be between 0 and 5.");
-            }
+            System.out.println("ERROR: Invalid data.");
+            System.exit(0);
         }
         else
         {
-            System.out.println("Invalid input. Enter a number.");
-            input.nextLine();
+            this.name = name;
         }
     }
 
-    // GENRE
-    boolean validGenre = false;
-    while(!validGenre)
+    public String getName()
     {
-        System.out.print("Please enter the genre: ");
-        String genre = input.nextLine().trim();
-
-        validGenre = show.setGenre(genre);
-
-        if(!validGenre)
-        {
-            System.out.println("Invalid genre. Try again.");
-        }
+        return name;
     }
 
-    System.out.println(show);
+    public double getStarRating()
+    {
+        return starRating;
+    }
 
-    return show;
+    public String getGenre()
+    {
+        return genre;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public boolean setStarRating(double starRating)
+    {
+        if(starRating >= 0.0 && starRating <= 5.0)
+        {
+            this.starRating = starRating;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setGenre(String genre)
+    {
+        for(int i = 0; i < VALID_GENRES.length; i++)
+        {
+            if(genre.equalsIgnoreCase(VALID_GENRES[i]))
+            {
+                this.genre = VALID_GENRES[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setAll(String name, double starRating, String genre)
+    {
+        this.name = name;
+
+        boolean ratingIsSet = this.setStarRating(starRating);
+        boolean genreIsSet = this.setGenre(genre);
+
+        return ratingIsSet && genreIsSet;
+    }
+
+    public String toString()
+    {
+        return String.format("%s,%.1f,%s", name, starRating, genre);
+    }
+
+    public boolean equals(NetflixOriginal other)
+    {
+        return this.name.equals(other.name)
+            && this.starRating == other.starRating
+            && this.genre.equals(other.genre);
+    }
 }
